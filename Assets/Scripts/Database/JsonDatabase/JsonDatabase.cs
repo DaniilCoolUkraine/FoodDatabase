@@ -16,26 +16,28 @@ namespace FoodDatabase.Database.JsonDatabase
 
         public JsonDatabase()
         {
-            _filePath = Application.persistentDataPath + "/database.json";
+            _filePath = Application.persistentDataPath + Constants.DatabaseName;
         }
 
         public async void Load()
         {
             IsBusy = true;
 
-            var readingHandler = File.ReadAllTextAsync(_filePath).AsUniTask();
-            var json = await readingHandler;
+            var json = string.Empty;
+            if (File.Exists(_filePath))
+            {
+                var readingHandler = File.ReadAllTextAsync(_filePath).AsUniTask();
+                json = await readingHandler;
+            }
 
-            var array = JsonConvert.DeserializeObject<IITem[]>(json);
+            var array = JsonConvert.DeserializeObject<JsonItem[]>(json);
 
             if (array != null)
             {
-                _items = array.ToHashSet();
+                _items = array.Select(i => (IITem) i).ToHashSet();
             }
             else
-            {
-                Debug.LogWarning("Failed to load database");
-            }
+                Debug.LogError("Failed to load database");
 
             IsBusy = false;
         }

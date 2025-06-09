@@ -1,14 +1,10 @@
 ﻿namespace FoodDatabase.Database.JsonDatabase
 {
-    public class JsonItem :  IITem
+    public class JsonItem : IITem
     {
-        public int Id { get; }
-        public string Name { get; }
-
-        public JsonItem(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Quantity { get; set; }
+        public EMeasurementType MeasurementType { get; set; }
     }
 }
